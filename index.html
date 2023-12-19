@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Il Mio Quiz</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    #quiz {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    #question {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    #choices button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #FFA07A;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    #choices button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz">
+    <h1>Benvenuto al Quiz!</h1>
+    <div id="question"></div>
+    <div id="choices"></div>
+    <button onclick="nextQuestion()">Prossima Domanda</button>
+    <p id="score"></p>
+  </div>
+
+
+ 
+  <script>
+    const questions = [
+  {
+    question: "Quali di questi sono partiti politici italiani?",
+    choices: ["Partito Democratico (PD), Movimento 5 Stelle (M5S), Forza Italia", "Lega Nord, Partito Comunista Italiano, Partito Socialista Italiano", "Alleanza Nazionale, Partito Liberale Italiano, Partito Radicale", "Italia Viva, Fratelli d'Italia, Unione di Centro"],
+    correctAnswer: 0
+  },
+  {
+    question: "Chi è il presidente del Senato?",
+    choices: ["Elisabetta Casellati", "Roberto Fico", "Maria Elisabetta Alberti Casellati", "Ignazio La Russa"],
+    correctAnswer: 3
+  },
+  {
+    question: "Come si chiama il ministero dell'istruzione?",
+    choices: ["Ministero dell'Istruzione e della Cultura", "Ministero della Pubblica Istruzione", "Ministero dell'Istruzione e dell'Università", "Ministero dell'Istruzione e del Merito"],
+    correctAnswer: 3
+  },
+  {
+    question: "Chi è l'attuale ministro dell'Istruzione?",
+    choices: ["Patrizio Bianchi", "Roberto Speranza", "Lucia Azzolina", "Patrizio Valditara"],
+    correctAnswer: 2
+  },
+  {
+    question: "Chi è il presidente della Toscana?",
+    choices: ["Enrico Rossi", "Eugenio Giani", "Claudio Martini", "Leonardo Marras"],
+    correctAnswer: 1
+  }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function displayQuestion() {
+  const questionElement = document.getElementById("question");
+  const choicesElement = document.getElementById("choices");
+  const scoreElement = document.getElementById("score");
+  
+  questionElement.textContent = questions[currentQuestion].question;
+  choicesElement.innerHTML = "";
+  scoreElement.textContent = `Punteggio: ${score}/${questions.length}`;
+
+  questions[currentQuestion].choices.forEach((choice, index) => {
+    const button = document.createElement("button");
+    button.textContent = choice;
+    button.style.display = "block"; // Rende i pulsanti verticali
+    button.style.marginBottom = "5px"; // Aggiunge spazio tra i pulsanti
+    button.onclick = () => checkAnswer(index);
+    choicesElement.appendChild(button);
+  });
+}
+
+    function checkAnswer(userChoice) {
+      if (userChoice === questions[currentQuestion].correctAnswer) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        showScore();
+      }
+    }
+
+    function showScore() {
+      const quizElement = document.getElementById("quiz");
+      quizElement.innerHTML = "";
+      const scoreElement = document.createElement("p");
+      scoreElement.textContent = `Il tuo punteggio finale è ${score}/${questions.length}. Grazie per aver partecipato al quiz!`;
+      quizElement.appendChild(scoreElement);
+    }
+
+    displayQuestion();
+  </script>
+</body>
+</html>
